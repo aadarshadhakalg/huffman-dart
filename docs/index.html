@@ -44,8 +44,39 @@
   <div id="dartdoc-main-content" class="main-content">
       
 <section class="desc markdown">
-  <p>A sample command-line application with an entrypoint in <code>bin/</code>, library code
-in <code>lib/</code>, and example unit test in <code>test/</code>.</p>
+  <h1 id="huffman-coding-library">Huffman Coding Library</h1>
+<p>A library to perform huffman encoding and decoding.</p>
+<p>Huffman Coding is a text compression technique invented by David A. Huffman in 1952.
+It is a loseless data compression algorithm. i.e Original data can be perfectly reconstructed/decoded from the compressed/encoded data. Huffman coding generates a prefix code by converting characters into variable length bit strings. The most frequently occurring characters are converted to the shortest bit strings; the least frequently occurring characters are converted to the longest bit strings.</p>
+<p><strong>See Project Demo:</strong> <a href="https://aadarshadhakalg.github.io/huffman-dart/">Demo</a><br>
+<strong>See Project Documentation:</strong> <a href="https://aadarshadhakalg.github.io/huffman-dart/demo/">Documentation</a><br>
+<strong>See Example App:</strong> <a href="https://github.com/aadarshadhakalg/huffman-dart/tree/master/example">Example App</a><br><br></p>
+<h2 id="features">Features</h2>
+<ul>
+<li>Encode String</li>
+<li>Decode <a href="huffman/HuffmanCode-class.html">HuffmanCode</a>
+<br>
+<br></li>
+</ul>
+<h2 id="usage">Usage</h2>
+<ol>
+<li>Create a instance of <a href="huffman/HuffmanCoding-class.html">HuffmanCoding</a></li>
+</ol>
+<pre class="language-dart"><code class="language-dart"> HuffmanCoding huffmanCoding = HuffmanCoding();
+</code></pre>
+<ol start="2">
+<li>Encode</li>
+</ol>
+<pre class="language-dart"><code class="language-dart"> HuffmanCode encoded = huffmanCoding.encode('Hello');
+</code></pre>
+<ol start="3">
+<li>Decode</li>
+</ol>
+<pre class="language-dart"><code class="language-dart"> String decoded = huffmanCoding.decode(encoded);
+</code></pre>
+<h2 id="license">License</h2>
+<p>The source code for the site is licensed under the MIT license, which you can find in the LICENSE file.
+All graphical assets are licensed under the <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 Unported License</a>.</p>
 </section>
 
 
