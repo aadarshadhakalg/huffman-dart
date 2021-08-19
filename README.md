@@ -5,8 +5,8 @@ A library to perform huffman encoding and decoding.
 Huffman Coding is a text compression technique invented by David A. Huffman in 1952.
 It is a loseless data compression algorithm. i.e Original data can be perfectly reconstructed/decoded from the compressed/encoded data. Huffman coding generates a prefix code by converting characters into variable length bit strings. The most frequently occurring characters are converted to the shortest bit strings; the least frequently occurring characters are converted to the longest bit strings. 
 
-__See Project Demo:__ [Demo](https://aadarshadhakalg.github.io/huffman-dart/)<br>
-__See Project Documentation:__ [Documentation](https://aadarshadhakalg.github.io/huffman-dart/demo/)<br>
+__See Project Demo:__ [Demo](https://huffman.aadarshadhakal.com.np/)<br>
+__See Project Documentation:__ [Documentation](https://aadarshadhakalg.github.io/huffman-dart/)<br>
 __See Example App:__ [Example App](https://github.com/aadarshadhakalg/huffman-dart/tree/master/example)<br><br>
 
   
