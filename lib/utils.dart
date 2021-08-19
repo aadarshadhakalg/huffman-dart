@@ -13,9 +13,9 @@ class _Utils {
   ///
   /// Insertion sort is stable sort so it is used.
   /// This methos return sorted frequency table.
-  static Map<_Node, int> insertionSort(Map<_Node, int> map) {
+  static Map<Node, int> insertionSort(Map<Node, int> map) {
     // Map to entries list conversion
-    List<MapEntry<_Node, int>> list = map.entries.toList();
+    List<MapEntry<Node, int>> list = map.entries.toList();
 
     // If there are no entries return empty map
     if (list.isEmpty) return {};
@@ -24,7 +24,7 @@ class _Utils {
     // Sorting order is Descending
     int n = list.length;
     int i, j;
-    MapEntry<_Node, int> temp;
+    MapEntry<Node, int> temp;
 
     for (i = 1; i < n; i++) {
       temp = list[i];
@@ -44,16 +44,16 @@ class _Utils {
   ///
   /// Uses [insertionSort] method to sort the table
   /// This methos returns the huffman frequency table which is sorted.
-  static Map<_Node, int> makeFrequencyTable(String string) {
+  static Map<Node, int> makeFrequencyTable(String string) {
     // Map as a frequency table
-    var freq = <_Node, int>{};
+    var freq = <Node, int>{};
 
     // Make frequency table
     for (var char in string.split('')) {
-      if (!freq.containsKey(_Node(key: char))) {
-        freq[_Node(key: char)] = 1;
+      if (!freq.containsKey(Node(key: char))) {
+        freq[Node(key: char)] = 1;
       } else {
-        freq[_Node(key: char)] = freq[_Node(key: char)]! + 1;
+        freq[Node(key: char)] = freq[Node(key: char)]! + 1;
       }
     }
 
@@ -67,15 +67,15 @@ class _Utils {
   ///
   /// This method performs depth first Traverse on the huffman tree and generates
   /// huffman code table of type [Map] and returns it.
-  static Map<String, String> getHuffmanCodeTable(MapEntry<_Node, int> tree) {
+  static Map<String, String> getHuffmanCodeTable(MapEntry<Node, int> tree) {
     // Holds huffman code for a character
     List<int> code = [];
     // Holds the root node of huffman tree
-    _Node? rootNode = tree.key;
+    Node? rootNode = tree.key;
     // Holds path to current node
-    List<_Node> stack = [];
+    List<Node> stack = [];
     // Holds all visited nodes
-    List<_Node> visited = [];
+    List<Node> visited = [];
     // Holds the final huffman code table
     Map<String, String> huffmanCodeTable = {};
 
@@ -84,7 +84,7 @@ class _Utils {
     // Loops until the stack is empty
     while (stack.isNotEmpty) {
       // Assignes top of stack as current node.
-      _Node currentNode = stack.last;
+      Node currentNode = stack.last;
       if (currentNode.left == null && currentNode.right == null) {
         // If current node is leaf node,
         // add it and the equivalent huffman code to huffmanCodeTable
@@ -130,20 +130,20 @@ class _Utils {
   ///
   /// This method uses recursive strategy to build Priority Queue or Heap or
   /// Huffman Tree from frequency table and returns it.
-  static MapEntry<_Node, int> buildHeap(Map<_Node, int> frequencyTable) {
+  static MapEntry<Node, int> buildHeap(Map<Node, int> frequencyTable) {
     if (frequencyTable.entries.length == 1) {
       return frequencyTable.entries.first;
     }
 
     // Get all entries from map
-    List<MapEntry<_Node, int>> allEntries = frequencyTable.entries.toList();
+    List<MapEntry<Node, int>> allEntries = frequencyTable.entries.toList();
     // Finds last entry
-    MapEntry<_Node, int> lastEntry = allEntries.last;
+    MapEntry<Node, int> lastEntry = allEntries.last;
     // Finds second last entry
-    MapEntry<_Node, int> secondLastEntry = allEntries[allEntries.length - 2];
+    MapEntry<Node, int> secondLastEntry = allEntries[allEntries.length - 2];
 
     // Create a parent node for last 2 entries
-    _Node parent = _Node(
+    Node parent = Node(
       key: secondLastEntry.key.key + lastEntry.key.key,
       right: lastEntry.key,
       left: secondLastEntry.key,
@@ -152,15 +152,15 @@ class _Utils {
     int parentFrequency = lastEntry.value + secondLastEntry.value;
 
     // Create map entry for parent node
-    MapEntry<_Node, int> connect = MapEntry(parent, parentFrequency);
+    MapEntry<Node, int> connect = MapEntry(parent, parentFrequency);
 
     // Modify map
     // Replace last 2 entry with the parent node entry
-    List<MapEntry<_Node, int>> newLevel =
+    List<MapEntry<Node, int>> newLevel =
         allEntries.sublist(0, allEntries.length - 2)..add(connect);
 
     // Sort the map of new level
-    Map<_Node, int> sortedNewLevel =
+    Map<Node, int> sortedNewLevel =
         _Utils.insertionSort(Map.fromEntries(newLevel));
 
     // Recursvely build the next level of Heap

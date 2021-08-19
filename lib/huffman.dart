@@ -32,10 +32,11 @@ part 'types/node.dart';
 part 'types/huffman_code.dart';
 part 'utils.dart';
 
+/// [HuffmanCoding] class exposes two encode and decode method.
 class HuffmanCoding {
   HuffmanCoding();
-  late Map<_Node, int> frequencyTable;
-  late MapEntry<_Node, int> tree;
+  late Map<Node, int> frequencyTable;
+  late MapEntry<Node, int> tree;
 
   /// Encodes the input strng using huffman encoding algorithm.
   ///
@@ -65,7 +66,7 @@ class HuffmanCoding {
   ///
   /// Takes input of type [HuffmanCode] as input to decode it.
   ///
-  /// This method decoded the `HuffmanCode` and returns decoded value of type [String]
+  /// This method decodes the `HuffmanCode` and returns decoded value of type [String]
   String decode(HuffmanCode toDecode) {
     // Holds  huffman table which is used for decoding
     Map<String, String> huffmanTable = toDecode.huffmanTable;
