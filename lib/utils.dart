@@ -11,8 +11,9 @@ part of huffman;
 class _Utils {
   /// Sort the map using insertion sort algorithm.
   ///
-  /// Insertion sort is stable sort so it is used.
+  /// Insertion sort is no more used, because of it's time complexity O(n^2).
   /// This methos return sorted frequency table.
+  @Deprecated('Use heapSort() instead')
   static Map<Node, int> insertionSort(Map<Node, int> map) {
     // Map to entries list conversion
     List<MapEntry<Node, int>> list = map.entries.toList();
@@ -58,7 +59,8 @@ class _Utils {
     }
 
     // Sort the frequency table and return
-    return insertionSort(freq);
+
+    return heapSort(freq);
   }
 
   /// Generate huffman code table.
@@ -160,10 +162,79 @@ class _Utils {
         allEntries.sublist(0, allEntries.length - 2)..add(connect);
 
     // Sort the map of new level
-    Map<Node, int> sortedNewLevel =
-        _Utils.insertionSort(Map.fromEntries(newLevel));
+    Map<Node, int> sortedNewLevel = _Utils.heapSort(Map.fromEntries(newLevel));
 
     // Recursvely build the next level of Heap
     return buildHeap(sortedNewLevel);
+  }
+
+  /// Sort the map using heap sort algorithm.
+  ///
+  /// This methos return sorted frequency table.
+  /// Time Complexity O(nlogn)
+  static Map<Node, int> heapSort(Map<Node, int> freq) {
+    // Map to entries list conversion
+    List<MapEntry<Node, int>> list = freq.entries.toList();
+
+    // Holds length of entries
+    int n = list.length;
+
+    // Heap Building Part
+    // Since leaf nodes are already a heap configuration we do not have to perform any operation.
+    // So we perform operation to non leaf nodes only which are first (n/2) elements.
+    for (int i = (n ~/ 2); i >= 0; i--) {
+      heapify(list, n, i);
+    }
+
+    // Sorting Part
+    // Perform delete operation on the heap, it will sort the list
+    for (int i = n - 1; i >= 0; i--) {
+      swap(list, i);
+      heapify(list, i, 0);
+    }
+
+    // Return the sorted list
+    return Map.fromEntries(list);
+  }
+
+  // For delete operation on heap, swap root with last node in heap
+  static void swap(List<MapEntry<Node, int>> list, int i) {
+    var temp = list[0];
+    list[0] = list[i];
+    list[i] = temp;
+  }
+
+  /// Build's min heap from the given list of items.
+  /// Time Complexity O(n)
+  static void heapify(List<MapEntry<Node, int>> list, int sizeOfHeap, int i) {
+    int smallest = i;
+    int l = 2 * i;
+    int r = 2 * i + 1;
+
+    // If left child is smaller than root
+    if (l < sizeOfHeap && list[l].value < list[smallest].value) {
+      smallest = l;
+    }
+
+    // If right child is smaller than root
+    if (r < sizeOfHeap && list[r].value < list[smallest].value) {
+      smallest = r;
+    }
+
+    // If root is greater than its children, it doesnot satisfies the min heap
+    // property so we have to swap their position and re heapify
+    if (smallest != i) {
+      swapInList(list, i, smallest);
+      heapify(list, sizeOfHeap, smallest);
+    }
+  }
+
+  // Swap item from one index in list to another index
+  // Used to swap root node and child node in heap during heapify
+  static void swapInList(
+      List<MapEntry<Node, int>> list, int index1, int index2) {
+    var temp = list[index1];
+    list[index1] = list[index2];
+    list[index2] = temp;
   }
 }

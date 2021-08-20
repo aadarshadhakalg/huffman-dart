@@ -33,6 +33,64 @@ __See Example App:__ [Example App](https://github.com/aadarshadhakalg/huffman-da
  ```dart
  String decoded = huffmanCoding.decode(encoded);
  ```
+ <br>
+ <br>
+
+## Time Complexity Analysis
+<br>
+
+### Encoding
+  
+ `T(n) = nlogn + logn + n + n => O(nlogn)`
+
+ ```dart
+  HuffmanCode encode(String toEncode) {
+    // Time Complexity:  O(nlogn)
+    frequencyTable = _Utils.makeFrequencyTable(toEncode);
+    // Time Complexity: O(logn)
+    tree = _Utils.buildHeap(frequencyTable);
+    // Time Complexity: O(n)
+    Map<String, String> huffmanTable = _Utils.getHuffmanCodeTable(tree);
+    // Time Complexity: O(n)
+    var encodedValue = toEncode.split('').fold(
+        '',
+        (previousValue, element) =>
+            previousValue.toString() + huffmanTable[element]!);
+    return HuffmanCode(encodedValue, huffmanTable);
+  }
+ ```
+<br>
+
+### Decoding
+
+ `T(n) = n^2 + 2 => O(n^2)`
+
+ ```dart
+  String decode(HuffmanCode toDecode) {
+    Map<String, String> huffmanTable = toDecode.huffmanTable;
+    String decodedValue = '';
+    // Time Complexity O(n^2)
+    toDecode.value.split('').fold(
+      '',
+      (previousValue, currentValue) {
+        if (huffmanTable
+            .containsValue(previousValue.toString() + currentValue)) {
+          decodedValue = decodedValue +
+              huffmanTable.entries
+                  .firstWhere((element) =>
+                      element.value ==
+                      (previousValue.toString() + currentValue))
+                  .key;
+          return '';
+        } else {
+          return previousValue.toString() + currentValue;
+        }
+      },
+    );
+    return decodedValue;
+  }
+
+ ```
 
  ## License
 

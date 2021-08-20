@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:huffman/huffman.dart';
 import 'package:huffman_example/src/widgets/encoding_result.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -20,6 +21,32 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('HUFFMAN VISUALIZER'),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              await launch(
+                'https://github.com/aadarshadhakalg/huffman-dart',
+                enableJavaScript: true,
+              );
+            },
+            child: Text(
+              'Github',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+          TextButton(
+            onPressed: () async {
+              await launch(
+                'https://aadarshadhakalg.github.io/huffman-dart/',
+                enableJavaScript: true,
+              );
+            },
+            child: Text(
+              'Docs',
+              style: TextStyle(color: Colors.white),
+            ),
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: Container(

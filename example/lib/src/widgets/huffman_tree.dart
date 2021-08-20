@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:huffman/huffman.dart';
@@ -15,14 +16,28 @@ class HuffmanTree extends StatefulWidget {
 }
 
 class _HuffmanTreeState extends State<HuffmanTree> {
+  refresh() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      child: Container(
-        height: 1000,
+    var customPainter = HuffmanTreePainter(
+        MediaQuery.of(context).size.width, widget.tree, widget.frequencyTable);
+    return InteractiveViewer(
+      minScale: 0.1,
+      maxScale: double.infinity,
+      child: Center(
+        child: Transform.scale(
+          scale: (MediaQuery.of(context).size.width / customPainter.width) / 3,
+          child: CustomPaint(
+            child: Container(
+              height: 500,
+            ),
+            painter: customPainter,
+          ),
+        ),
       ),
-      painter: HuffmanTreePainter(MediaQuery.of(context).size.width,
-          widget.tree, widget.frequencyTable),
     );
   }
 }
@@ -35,6 +50,13 @@ class HuffmanTreePainter extends CustomPainter {
   final Map<Node, int> frequencyTable;
 
   Paint _paint = Paint()..color = Colors.blue;
+  Paint _paintLeft = Paint()
+    ..color = Colors.red
+    ..strokeWidth = 2;
+  Paint _paintRight = Paint()
+    ..color = Colors.deepPurple
+    ..strokeWidth = 2;
+
   @override
   void paint(Canvas canvas, Size size) {
     Offset center = Offset(width / 2, 50);
@@ -47,34 +69,38 @@ class HuffmanTreePainter extends CustomPainter {
 
     Offset level = center;
     Offset previousLevel = center;
-    int height = 1;
-    double maxPathWidth = size.width / 3.5;
+    double height = 1.2;
+    double maxPathWidth = size.width / 2;
+    bool isMovingBack = false;
 
     stack.add(rootNode);
-    // canvas..drawCircle(center, 20, _paint);
     while (stack.isNotEmpty) {
       Node currentNode = stack.last;
-      canvas.drawCircle(level, 15, _paint);
-      String textToPaint = currentNode.key.length == 1
-          ? currentNode.key
-          : currentNode.key.split('').fold(
-              '0',
-              (previousValue, currentValue) =>
-                  '${int.parse(previousValue) + frequencyTable.entries.firstWhere((element) => element.key.key == currentValue).value}');
-      paintText(
-        canvas,
-        level,
-        textToPaint,
-      );
-      canvas.drawLine(previousLevel, level, _paint);
+      if (!isMovingBack) {
+        canvas.drawLine(previousLevel, level,
+            (previousLevel.dx < level.dx) ? _paintLeft : _paintRight);
+        canvas.drawCircle(level, 15, _paint);
+        String textToPaint = currentNode.key.length == 1
+            ? currentNode.key
+            : currentNode.key.split('').fold(
+                '0',
+                (previousValue, currentValue) =>
+                    '${int.parse(previousValue) + frequencyTable.entries.firstWhere((element) => element.key.key == currentValue).value}');
+        paintText(
+          canvas,
+          level,
+          textToPaint,
+        );
+      }
 
       previousLevel = level;
 
       if (currentNode.left == null && currentNode.right == null) {
         huffmanCodeTable.addAll({currentNode.key: code.join()});
         code.removeLast();
+        isMovingBack = true;
 
-        height -= 2;
+        height = sqrt(height);
         var removed = stack.removeLast();
         if (removed == stack.last.left) {
           level = level.translate(maxPathWidth / height, -100);
@@ -88,7 +114,8 @@ class HuffmanTreePainter extends CustomPainter {
         visited.add(currentNode);
         stack.add(currentNode);
         level = level.translate(-maxPathWidth / height, 100);
-        height += 2;
+        height = height * height;
+        isMovingBack = false;
       } else if (currentNode.right != null &&
           !visited.contains(currentNode.right)) {
         code.add(1);
@@ -96,14 +123,16 @@ class HuffmanTreePainter extends CustomPainter {
         visited.add(currentNode);
         stack.add(currentNode);
         level = level.translate(maxPathWidth / height, 100);
-        height += 2;
+        height = height * height;
+        isMovingBack = false;
       } else {
         if (code.isNotEmpty) {
           code.removeLast();
         }
         var removed = stack.removeLast();
         if (stack.isNotEmpty) {
-          height -= 2;
+          height = sqrt(height);
+          isMovingBack = true;
           if (removed == stack.last.left) {
             level = level.translate(maxPathWidth / height, -100);
           } else if (removed == stack.last.right) {

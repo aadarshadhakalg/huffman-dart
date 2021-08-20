@@ -44,15 +44,22 @@ class HuffmanCoding {
   ///
   /// This method returns [HuffmanCode] which contains the encoded value and
   /// equivalent huddman code table which is required to decode the encoded value.
+  /// 
+  /// Time Complexity Analysis
+  /// `T(n) = nlogn + logn + n + n => O(nlogn)`
   HuffmanCode encode(String toEncode) {
     // Get Frequency table
+    // Time Complexity:  O(nlogn)
     frequencyTable = _Utils.makeFrequencyTable(toEncode);
     // Builds heap tree
+    // Time Complexity: O(logn)
     tree = _Utils.buildHeap(frequencyTable);
     // Perform DFS to generate huffman code table
+    // Time Complexity: O(n)
     Map<String, String> huffmanTable = _Utils.getHuffmanCodeTable(tree);
 
     // Replace characters with huffman value
+    // Time Complexity: O(n)
     var encodedValue = toEncode.split('').fold(
         '',
         (previousValue, element) =>
@@ -67,6 +74,9 @@ class HuffmanCoding {
   /// Takes input of type [HuffmanCode] as input to decode it.
   ///
   /// This method decodes the `HuffmanCode` and returns decoded value of type [String]
+  ///
+  /// Time Complexity Analysis
+  /// `T(n) = n^2 + 2 => O(n^2)`
   String decode(HuffmanCode toDecode) {
     // Holds  huffman table which is used for decoding
     Map<String, String> huffmanTable = toDecode.huffmanTable;
@@ -75,6 +85,7 @@ class HuffmanCoding {
     String decodedValue = '';
 
     // Splits encoded value into characters and aggregate them one by one.
+    // Time Complexity O(n^2)
     toDecode.value.split('').fold(
       '',
       (previousValue, currentValue) {
