@@ -65,6 +65,8 @@
 <p>Takes input of type <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a> as input to encode it.</p>
 <p>This method returns <a href="../../huffman/HuffmanCode-class.html">HuffmanCode</a> which contains the encoded value and
 equivalent huddman code table which is required to decode the encoded value.</p>
+<p>Time Complexity Analysis
+<code>T(n) = nlogn + logn + n + n =&gt; O(nlogn)</code></p>
 </section>
 
 
@@ -73,13 +75,17 @@ equivalent huddman code table which is required to decode the encoded value.</p>
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">HuffmanCode encode(String toEncode) {
   &#47;&#47; Get Frequency table
+  &#47;&#47; Time Complexity:  O(nlogn)
   frequencyTable = _Utils.makeFrequencyTable(toEncode);
   &#47;&#47; Builds heap tree
+  &#47;&#47; Time Complexity: O(logn)
   tree = _Utils.buildHeap(frequencyTable);
   &#47;&#47; Perform DFS to generate huffman code table
+  &#47;&#47; Time Complexity: O(n)
   Map&lt;String, String&gt; huffmanTable = _Utils.getHuffmanCodeTable(tree);
 
   &#47;&#47; Replace characters with huffman value
+  &#47;&#47; Time Complexity: O(n)
   var encodedValue = toEncode.split(&#39;&#39;).fold(
       &#39;&#39;,
       (previousValue, element) =&gt;

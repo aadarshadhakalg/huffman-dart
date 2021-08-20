@@ -48,8 +48,8 @@
 <p>A library to perform huffman encoding and decoding.</p>
 <p>Huffman Coding is a text compression technique invented by David A. Huffman in 1952.
 It is a loseless data compression algorithm. i.e Original data can be perfectly reconstructed/decoded from the compressed/encoded data. Huffman coding generates a prefix code by converting characters into variable length bit strings. The most frequently occurring characters are converted to the shortest bit strings; the least frequently occurring characters are converted to the longest bit strings.</p>
-<p><strong>See Project Demo:</strong> <a href="https://aadarshadhakalg.github.io/huffman-dart/">Demo</a><br>
-<strong>See Project Documentation:</strong> <a href="https://aadarshadhakalg.github.io/huffman-dart/demo/">Documentation</a><br>
+<p><strong>See Project Demo:</strong> <a href="https://huffman.aadarshadhakal.com.np/">Demo</a><br>
+<strong>See Project Documentation:</strong> <a href="https://aadarshadhakalg.github.io/huffman-dart/">Documentation</a><br>
 <strong>See Example App:</strong> <a href="https://github.com/aadarshadhakalg/huffman-dart/tree/master/example">Example App</a><br><br></p>
 <h2 id="features">Features</h2>
 <ul>
@@ -73,6 +73,52 @@ It is a loseless data compression algorithm. i.e Original data can be perfectly 
 <li>Decode</li>
 </ol>
 <pre class="language-dart"><code class="language-dart"> String decoded = huffmanCoding.decode(encoded);
+</code></pre> <br>
+ <br>
+<h2 id="time-complexity-analysis">Time Complexity Analysis</h2><br>
+<h3 id="encoding">Encoding</h3>
+<p><code>T(n) = nlogn + logn + n + n =&gt; O(nlogn)</code></p>
+<pre class="language-dart"><code class="language-dart">  HuffmanCode encode(String toEncode) {
+    // Time Complexity:  O(nlogn)
+    frequencyTable = _Utils.makeFrequencyTable(toEncode);
+    // Time Complexity: O(logn)
+    tree = _Utils.buildHeap(frequencyTable);
+    // Time Complexity: O(n)
+    Map&lt;String, String&gt; huffmanTable = _Utils.getHuffmanCodeTable(tree);
+    // Time Complexity: O(n)
+    var encodedValue = toEncode.split('').fold(
+        '',
+        (previousValue, element) =&gt;
+            previousValue.toString() + huffmanTable[element]!);
+    return HuffmanCode(encodedValue, huffmanTable);
+  }
+</code></pre><br>
+<h3 id="decoding">Decoding</h3>
+<p><code>T(n) = n^2 + 2 =&gt; O(n^2)</code></p>
+<pre class="language-dart"><code class="language-dart">  String decode(HuffmanCode toDecode) {
+    Map&lt;String, String&gt; huffmanTable = toDecode.huffmanTable;
+    String decodedValue = '';
+    // Time Complexity O(n^2)
+    toDecode.value.split('').fold(
+      '',
+      (previousValue, currentValue) {
+        if (huffmanTable
+            .containsValue(previousValue.toString() + currentValue)) {
+          decodedValue = decodedValue +
+              huffmanTable.entries
+                  .firstWhere((element) =&gt;
+                      element.value ==
+                      (previousValue.toString() + currentValue))
+                  .key;
+          return '';
+        } else {
+          return previousValue.toString() + currentValue;
+        }
+      },
+    );
+    return decodedValue;
+  }
+
 </code></pre>
 <h2 id="license">License</h2>
 <p>The source code for the site is licensed under the MIT license, which you can find in the LICENSE file.

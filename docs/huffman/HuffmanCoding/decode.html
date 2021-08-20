@@ -64,6 +64,8 @@
   <p>Decodes the huffman code</p>
 <p>Takes input of type <a href="../../huffman/HuffmanCode-class.html">HuffmanCode</a> as input to decode it.</p>
 <p>This method decodes the <code>HuffmanCode</code> and returns decoded value of type <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></p>
+<p>Time Complexity Analysis
+<code>T(n) = n^2 + 2 =&gt; O(n^2)</code></p>
 </section>
 
 
@@ -78,6 +80,7 @@
   String decodedValue = &#39;&#39;;
 
   &#47;&#47; Splits encoded value into characters and aggregate them one by one.
+  &#47;&#47; Time Complexity O(n^2)
   toDecode.value.split(&#39;&#39;).fold(
     &#39;&#39;,
     (previousValue, currentValue) {
