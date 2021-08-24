@@ -44,7 +44,7 @@ class HuffmanCoding {
   ///
   /// This method returns [HuffmanCode] which contains the encoded value and
   /// equivalent huddman code table which is required to decode the encoded value.
-  /// 
+  ///
   /// Time Complexity Analysis
   /// `T(n) = nlogn + logn + n + n => O(nlogn)`
   HuffmanCode encode(String toEncode) {
@@ -52,7 +52,7 @@ class HuffmanCoding {
     // Time Complexity:  O(nlogn)
     frequencyTable = _Utils.makeFrequencyTable(toEncode);
     // Builds heap tree
-    // Time Complexity: O(logn)
+    // Time Complexity: O(nlogn)
     tree = _Utils.buildHeap(frequencyTable);
     // Perform DFS to generate huffman code table
     // Time Complexity: O(n)

@@ -6,6 +6,9 @@ part of huffman;
 /// [insertionSort] Sort the map using insertion sort algorithm
 /// Insettion sort is used by [makeFrequencyTable]
 ///
+/// [heapSort] Sort the map using heap sort algorithm
+/// Insettion sort is used by [makeFrequencyTable]
+///
 /// [makeFrequencyTable] : Makes frequency table from input string
 ///
 class _Utils {
@@ -43,7 +46,7 @@ class _Utils {
 
   /// Makes frequency table from the input string
   ///
-  /// Uses [insertionSort] method to sort the table
+  /// Uses [heapSort] method to sort the table
   /// This methos returns the huffman frequency table which is sorted.
   static Map<Node, int> makeFrequencyTable(String string) {
     // Map as a frequency table
@@ -205,7 +208,7 @@ class _Utils {
   }
 
   /// Build's min heap from the given list of items.
-  /// Time Complexity O(n)
+  /// Time Complexity O(logn)
   static void heapify(List<MapEntry<Node, int>> list, int sizeOfHeap, int i) {
     int smallest = i;
     int l = 2 * i;
