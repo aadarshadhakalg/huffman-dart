@@ -1,3 +1,5 @@
+![0eb9fe3bd56c46918d218f6b6171d861-0001](https://user-images.githubusercontent.com/19362725/130312297-d88d5ec3-0eb6-46e1-9ec1-cd0bad267d8d.jpg)
+
 # Huffman Coding Library
 
 A library to perform huffman encoding and decoding.
